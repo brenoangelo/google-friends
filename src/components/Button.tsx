@@ -2,10 +2,10 @@ import { ButtonHTMLAttributes } from 'react'
 
 import '../styles/button.scss'
 
-type Button = ButtonHTMLAttributes<HTMLButtonElement>
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
-export function Button(props: Button){
-    return(
-        <button className="button" { ...props }/>
+export function Button(props: ButtonProps) {
+    return (
+        <button className="button" {...props} />
     )
 }

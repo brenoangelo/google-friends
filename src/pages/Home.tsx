@@ -1,37 +1,43 @@
+import { FormEvent } from 'react'
+
+import { useHistory } from 'react-router-dom';
+
 import '../styles/auth.scss'
 
 import { Button } from '../components/Button';
 
-import { firebase, auth } from '../services/firebase'
+import { useAuth } from '../hooks/useAuth';
 
 import googleIcon from '../assets/images/google-logo.svg'
 import logo from '../assets/images/logo-google-friends.png';
 import room from '../assets/images/google-classroom.svg';
 
 export function Home() {
-    
-    function handleCreateRoom() {
-        const provider = new firebase.auth.GoogleAuthProvider()
-        auth.signInWithPopup(provider)
-            .then((result) => {
-                var user = result.user
-                console.log(result)
-            })
+    const history = useHistory()
+    const { user, signInWithGoogle } = useAuth()
 
+    async function handleCreateRoom(event: FormEvent) {
+        event.preventDefault()
+        
+        if(!user) {
+           await signInWithGoogle()
+        }
+
+        history.push('./rooms/new')
     }
 
     return (
         <div id="auth-page">
             <main>
                 <img src={logo} alt="Google Friends" />
-                <form>
+                <form onSubmit={handleCreateRoom}>
                     <input type="text" placeholder="Código da sala..." />
-                    <Button><img src={room} />Entrar na Sala</Button>
+                    <Button><img src={room} alt="google room" />Entrar na Sala</Button>
                     <div className="separator">OU</div>
                     <button className="button-google"
                         onClick={handleCreateRoom}
                     >
-                        <img src={googleIcon} />Criar sala com o Google
+                        <img src={googleIcon} alt="google icon" />Criar sala com o Google
                     </button>
                 </form>
             </main>
