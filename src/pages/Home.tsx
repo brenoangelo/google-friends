@@ -1,4 +1,6 @@
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
+
+import { database } from '../services/firebase'
 
 import { useHistory } from 'react-router-dom';
 
@@ -15,6 +17,7 @@ import room from '../assets/images/google-classroom.svg';
 export function Home() {
     const history = useHistory()
     const { user, signInWithGoogle } = useAuth()
+    const [code, setCode] = useState('')
 
     async function handleCreateRoom(event: FormEvent) {
         event.preventDefault()
@@ -26,12 +29,34 @@ export function Home() {
         history.push('./rooms/new')
     }
 
+    async function handleJoinRoom(event: FormEvent){
+        event.preventDefault()
+
+        if(code.trim() === ''){
+            return;
+        }
+
+        const roomRef = await database.ref(`rooms/${code}`).get()
+
+        if(!roomRef.exists()){
+            return new Error('Room no exists')
+        }
+
+        history.push(`/rooms/${code}`)
+
+        setCode('')
+    }
+
+
     return (
         <div id="auth-page">
             <main>
                 <img src={logo} alt="Google Friends" />
-                <form onSubmit={handleCreateRoom}>
-                    <input type="text" placeholder="Código da sala..." />
+                <form onSubmit={handleJoinRoom}>
+                    <input type="text" placeholder="Código da sala..." 
+                        onChange={event => setCode(event.target.value)}
+                        value={code}
+                    />
                     <Button><img src={room} alt="google room" />Entrar na Sala</Button>
                     <div className="separator">OU</div>
                     <button className="button-google"
