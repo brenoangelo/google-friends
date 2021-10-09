@@ -11,7 +11,7 @@ type User = {
 type AuthContextType = {
     user: User | undefined;
     signInWithGoogle: () => Promise<void>;
-  }
+}
 
 type AuthContextProviderProps = {
     children: ReactNode;

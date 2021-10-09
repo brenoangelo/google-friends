@@ -5,6 +5,7 @@ import { Button } from '../../components/Button'
 import { FormEvent, useEffect, useState } from 'react'
 import { database } from '../../services/firebase'
 import { useAuth } from '../../hooks/useAuth'
+import { MessageBox } from '../../components/MessageBox'
 
 
 type ParamsType = {
@@ -46,12 +47,11 @@ export function Chat(){
     useEffect(()=>{
         const roomRef = database.ref(`rooms/${roomId}/chat`)
 
-        roomRef.orderByKey().on( 'value' ,room => {
+        roomRef.on('value', room => {
             const databaseRoom = room.val()
 
             const firebaseChat: FirebaseChat = databaseRoom ?? {}
             
-
             const parsedChat = Object.entries(firebaseChat).map(([key, value])=>{
                 return {
                     id: key,
@@ -61,13 +61,10 @@ export function Chat(){
                 }
             })
 
-            
-
             setTitle(databaseRoom.title)
             setChatMessages(parsedChat)
             
         })
-
 
         
     }, [roomId])
@@ -105,11 +102,9 @@ export function Chat(){
             }
 
         }
-
+        console.log(message)
         await database.ref(`rooms/${ roomId }/chat`).push(message)
         setNewMessage('')
-
-        
 
     }
 
@@ -139,18 +134,9 @@ export function Chat(){
             </form>
 
             <main className="chat-messages">
-                {chatMessages.map((value) => {
+                {chatMessages.map((message) => {
                     return (
-                        <div className={`message-single ${user?.id == value.author.id ? "your-message" : ""}`} key={value.id}>
-                            
-                            <span>
-                                <img src={value.author.avatar}/>
-                                <h3>{value.author.name}</h3>
-                                <small>{value.date}</small>
-                            </span>
-        
-                            <p>{value.content}</p>
-                        </div>
+                        <MessageBox userId={user?.id} message={message}/>
                     )
                 })}
 
