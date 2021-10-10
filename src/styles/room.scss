@@ -194,10 +194,22 @@
                 display: flex;
                 flex-direction: column;
                 
+                overflow-y: auto;
+                max-height: 500px;
+
+                margin: 10px 0;
+
+                background: #fff;
+                filter: brightness(0.95);
+
+                border-radius: 25px;
+
                 .message-single{
                     max-width: 700px;
                     margin: 20px 5px 10px 5px;
                     padding: 20px 15px;
+
+                    min-height: 150px;
 
                     border-radius: 20px;
                     overflow: hidden;

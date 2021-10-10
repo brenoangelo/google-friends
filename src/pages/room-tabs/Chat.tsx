@@ -2,7 +2,7 @@ import { useParams } from 'react-router'
 
 import { Button } from '../../components/Button'
 
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { database } from '../../services/firebase'
 import { useAuth } from '../../hooks/useAuth'
 import { MessageBox } from '../../components/MessageBox'
@@ -37,9 +37,16 @@ export function Chat(){
     const [chatMessages, setChatMessages] = useState<ChatMessages[]>([])
     const { user } = useAuth()
     const date = new Date()
+    const endMessage = useRef<any>()
 
     const params = useParams<ParamsType>()
     const roomId = params.id
+
+    const scrollToBottom = () => {
+        endMessage.current.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    useEffect(scrollToBottom, [chatMessages])
 
     useEffect(()=>{
         const roomRef = database.ref(`rooms/${roomId}/chat`)
@@ -63,7 +70,6 @@ export function Chat(){
 
         
     }, [roomId])
-
     
 
     async function handleSendMessage(event: FormEvent){
@@ -104,6 +110,18 @@ export function Chat(){
 
     return (
         <div id="chat-content">
+
+            <main className="chat-messages" >
+                {chatMessages.map((message) => {
+                    return (
+                        
+                        <MessageBox key={message.id} userId={user?.id} message={message}/>
+                    
+                    )
+                })}
+                <div ref={endMessage}></div>
+            </main>
+
             <form onSubmit={handleSendMessage}>
                 <textarea placeholder="Digite aqui..."
                     onChange={event => setNewMessage(event.target.value)}
@@ -125,17 +143,6 @@ export function Chat(){
                     <Button disabled={!user}>Enviar</Button>
                 </div>
             </form>
-
-            <main className="chat-messages">
-                {chatMessages.map((message) => {
-                    return (
-                        
-                        <MessageBox key={message.id} userId={user?.id} message={message}/>
-                    
-                    )
-                })}
-
-            </main>
         </div>
 
         

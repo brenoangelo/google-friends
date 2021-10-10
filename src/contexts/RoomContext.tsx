@@ -19,6 +19,7 @@ type RoomInfoType = {
 
 type Props = {
     roomId: string;
+    setRoomTitle: any;
     children: ReactNode;
 }
 
@@ -44,6 +45,7 @@ export function RoomContextProvider({children, ...props}: Props){
             setRoomInfo(roomDetails)
             
             roomTitle = roomDetails.title
+            props.setRoomTitle(roomTitle)
         })
 
     },[roomId])
