@@ -15,9 +15,9 @@ type MessaBoxProps = {
 
 export function MessageBox({message, userId}: MessaBoxProps){
     return (
-        <div className={`message-single ${userId == message.author.id ? "your-message" : ""}`} key={message.id}>               
+        <div /* key={message.id} */ className={`message-single ${userId === message.author.id ? "your-message" : ""}`}>               
             <span>
-                <img src={message.author.avatar}/>
+                <img src={message.author.avatar} alt={message.author.name}/>
                 <h3>{message.author.name}</h3>
                 <small>{message.date}</small>
             </span>

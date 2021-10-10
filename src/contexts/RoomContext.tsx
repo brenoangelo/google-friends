@@ -27,10 +27,11 @@ export const RoomContext = createContext({} as RoomContextType)
 export function RoomContextProvider({children, ...props}: Props){
     const [roomInfo, setRoomInfo] = useState<RoomInfoType>()
     const roomId = props.roomId;
+    let roomTitle = ''
 
-    useEffect(()=>{
+    useEffect(() => {
         const roomRef = database.ref(`rooms/${roomId}`)
-        roomRef.on('value', room => {
+        roomRef.once('value', room => {
             const databaseRoom = room.val()
 
             const firebaseRoom: FirebaseRoom = databaseRoom ?? {}
@@ -41,12 +42,12 @@ export function RoomContextProvider({children, ...props}: Props){
             }
 
             setRoomInfo(roomDetails)
+            
+            roomTitle = roomDetails.title
         })
 
     },[roomId])
 
-    console.log(roomInfo?.title)
-    
     return (
         <RoomContext.Provider value={{roomInfo}}>
             {children}

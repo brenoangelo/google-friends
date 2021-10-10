@@ -12,46 +12,42 @@ import { Movie } from './room-tabs/Movie'
 
 import * as ROUTES from '../routes/Routes'
 import { RoomContextProvider } from '../contexts/RoomContext'
-import { useRoom } from '../hooks/useRoom'
 
 type RoomParams = {
     id: string;
 }
 
-
 export function Room(){
     const params = useParams<RoomParams>()
     const roomId = params.id;
-    const { roomInfo } = useRoom() 
-
     return(
         <BrowserRouter>
             <RoomContextProvider roomId={roomId}>
-                <div id="room-page">
-                    <header>
-                        <div className="header-content">
-                            <img src={logo} alt="Friends Logo" />
-                            <RoomCode roomcode={roomId}/>
-                        </div>
-                    </header>
-                    <main>
-                    <h2>Sala {roomInfo?.title}</h2>
-                        <nav className="tab-menu">
-                            <ul>
-                                <li><NavLink exact to={`/rooms/${roomId}/`}>Chat</NavLink></li>
-                                <li><NavLink to={`/rooms/${roomId}/books`}>Livros</NavLink></li>
-                                <li><NavLink to={`/rooms/${roomId}/movies`}>Filmes/Series</NavLink></li>
-                                <li><NavLink to={`/rooms/${roomId}/jobs`}>Empregos</NavLink></li>
-                            </ul>
-                        </nav>
-                        <Switch>
-                            <Route path={ROUTES.CHAT} exact component={Chat}/>
-                            <Route path={ROUTES.BOOKS} component={Book}/>
-                            <Route path={ROUTES.MOVIES} component={Movie}/>
-                            <Route path={ROUTES.JOBS} component={Job}/>
-                        </Switch>
-                    </main>
-                </div>
+            <div id="room-page">
+                <header>
+                    <div className="header-content">
+                        <img src={logo} alt="Friends Logo" />
+                        <RoomCode roomcode={roomId}/>
+                    </div>
+                </header>
+                <main>
+                <h2>Sala </h2>
+                    <nav className="tab-menu">
+                        <ul>
+                            <li><NavLink exact to={`/rooms/${roomId}/`}>Chat</NavLink></li>
+                            <li><NavLink to={`/rooms/${roomId}/books`}>Livros</NavLink></li>
+                            <li><NavLink to={`/rooms/${roomId}/movies`}>Filmes/Series</NavLink></li>
+                            <li><NavLink to={`/rooms/${roomId}/jobs`}>Empregos</NavLink></li>
+                        </ul>
+                    </nav>
+                    <Switch>
+                        <Route path={ROUTES.CHAT} exact component={Chat}/>
+                        <Route path={ROUTES.BOOKS} component={Book}/>
+                        <Route path={ROUTES.MOVIES} component={Movie}/>
+                        <Route path={ROUTES.JOBS} component={Job}/>
+                    </Switch>
+                </main>
+            </div>
             </RoomContextProvider>
         </BrowserRouter>
     )

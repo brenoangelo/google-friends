@@ -7,7 +7,6 @@ import { database } from '../../services/firebase'
 import { useAuth } from '../../hooks/useAuth'
 import { MessageBox } from '../../components/MessageBox'
 
-
 type ParamsType = {
     id: string;
 }
@@ -35,11 +34,9 @@ type ChatMessages = {
 
 export function Chat(){ 
     const [newMessage, setNewMessage] = useState('')
-    const [title, setTitle] = useState('')
     const [chatMessages, setChatMessages] = useState<ChatMessages[]>([])
     const { user } = useAuth()
     const date = new Date()
-
 
     const params = useParams<ParamsType>()
     const roomId = params.id
@@ -60,8 +57,6 @@ export function Chat(){
                     date: value.date
                 }
             })
-
-            setTitle(databaseRoom.title)
             setChatMessages(parsedChat)
             
         })
@@ -74,11 +69,10 @@ export function Chat(){
     async function handleSendMessage(event: FormEvent){
         event.preventDefault()
 
-        const monName = new Array("jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez")
+        const monName = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
 
         let day = String(date.getDate()).padStart(2, '0')
         let month = monName[date.getMonth()]
-        let year = date.getFullYear()
         let hours = String(date.getHours()).padStart(2, '0')
         let minutes = String(date.getMinutes()).padStart(2, '0')
 
@@ -115,16 +109,15 @@ export function Chat(){
                     onChange={event => setNewMessage(event.target.value)}
                     value={newMessage}
                 />
-
                 <div className="form-footer">
                     { 
                         user ? (
                             <div className="user-info">
-                                <img src={user?.avatar} />
+                                <img src={user?.avatar} alt={user?.name}/>
                                 <span>{user?.name}</span>
                             </div>
                         ):(
-                            <span>Para interagir, 
+                            <span>Para interagir,&nbsp; 
                                 <button>faça seu login</button></span>
                         )
                     }
@@ -136,7 +129,9 @@ export function Chat(){
             <main className="chat-messages">
                 {chatMessages.map((message) => {
                     return (
-                        <MessageBox userId={user?.id} message={message}/>
+                        
+                        <MessageBox key={message.id} userId={user?.id} message={message}/>
+                    
                     )
                 })}
 

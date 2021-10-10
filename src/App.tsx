@@ -13,11 +13,11 @@ export function App() {
     <div className="App">
       <BrowserRouter>
         <AuthContextProvider>
-          <Switch>
-            <Route path={ROUTES.HOME} exact component={Home} />
-            <Route path={ROUTES.NEWROOM} component={NewRoom} />
-            <Route path={ROUTES.ROOM} component={Room} /> 
-          </Switch>
+            <Switch>
+              <Route path={ROUTES.HOME} exact component={Home} />
+              <Route path={ROUTES.NEWROOM} component={NewRoom} />
+              <Route path={ROUTES.ROOM} component={Room} /> 
+            </Switch>
         </AuthContextProvider>
       </BrowserRouter>
     </div>
