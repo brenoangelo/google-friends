@@ -1,6 +1,17 @@
+import { SignBox } from "../../components/SignBox";
 
 export  function Book(){
     return (
-        <div>Book</div>
+        <div id="book-content">
+            <SignBox />
+            <SignBox />
+            <SignBox />
+            <SignBox />
+            <SignBox />
+            <SignBox />
+            <SignBox />
+            <SignBox />
+            <SignBox />
+        </div>
     )
 }
