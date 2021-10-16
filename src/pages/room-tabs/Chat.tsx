@@ -140,7 +140,9 @@ export function Chat(){
                         )
                     }
 
-                    <Button disabled={!user}>Enviar</Button>
+                    <Button disabled={!user}
+                        backgroundColor="#1a73e8" color="#fff"
+                    >Enviar</Button>
                 </div>
             </form>
         </div>

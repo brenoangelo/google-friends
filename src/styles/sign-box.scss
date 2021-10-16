@@ -1,11 +1,16 @@
 .sign-box{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: top;
     flex-direction: column;
+    flex: 1 1 200px;
 
+    min-height: 300px;
+    max-height: 300px;
     padding: 20px;
-    width: 29%;
+
+    // overflow: hidden;
+    
     border-radius: 30px;
 
     background-color: #fff;

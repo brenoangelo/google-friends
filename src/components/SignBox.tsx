@@ -17,7 +17,9 @@ export function SignBox(){
             
             <h3>Tipo</h3>
             <h1>Titulo</h1>
-            <p>descrição</p>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                Amet.
+                </p>
             
         </div>
     )
