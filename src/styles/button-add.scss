@@ -1,0 +1,31 @@
+.button-add{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+
+    width: 100px;
+    height: 100px;
+
+    font-size: 60px;
+
+    border-radius: 50%;
+
+    transition: box-shadow 0.3s;
+
+    background-color: #1a73e8;
+    box-shadow: 0px 3px 6px -1px rgba(0,0,0,0.30);
+    color: #fff;
+    
+
+    &:hover{
+        filter: brightness(1.1);
+        box-shadow: 0px 6px 6px 1px rgba(0,0,0,0.40);
+        
+    }
+}
