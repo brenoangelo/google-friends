@@ -32,11 +32,22 @@ type ChatMessages = {
     content: string;
 }
 
+const date = new Date()
+
+const monName = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
+
+        let day = String(date.getDate()).padStart(2, '0')
+        let month = monName[date.getMonth()]
+        let hours = String(date.getHours()).padStart(2, '0')
+        let minutes = String(date.getMinutes()).padStart(2, '0')
+
+        const dateNow = `${day} de ${month}, ${hours}:${minutes}`
+
 export function Chat(){ 
     const [newMessage, setNewMessage] = useState('')
     const [chatMessages, setChatMessages] = useState<ChatMessages[]>([])
     const { user } = useAuth()
-    const date = new Date()
+    
     const endMessage = useRef<any>()
 
     const params = useParams<ParamsType>()
@@ -50,8 +61,8 @@ export function Chat(){
 
     useEffect(()=>{
         const roomRef = database.ref(`rooms/${roomId}/chat`)
-
-        roomRef.on('value', room => {
+        
+        roomRef.once('value', room => {
             const databaseRoom = room.val()
 
             const firebaseChat: FirebaseChat = databaseRoom ?? {}
@@ -64,25 +75,17 @@ export function Chat(){
                     date: value.date
                 }
             })
+            console.log(parsedChat)
             setChatMessages(parsedChat)
             
         })
-
+        
         
     }, [roomId])
     
 
     async function handleSendMessage(event: FormEvent){
         event.preventDefault()
-
-        const monName = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
-
-        let day = String(date.getDate()).padStart(2, '0')
-        let month = monName[date.getMonth()]
-        let hours = String(date.getHours()).padStart(2, '0')
-        let minutes = String(date.getMinutes()).padStart(2, '0')
-
-        const dateNow = `${day} de ${month}, ${hours}:${minutes}`
 
         if(newMessage.trim() === ''){
             return;
@@ -102,7 +105,6 @@ export function Chat(){
             }
 
         }
-        console.log(message)
         await database.ref(`rooms/${ roomId }/chat`).push(message)
         setNewMessage('')
 

@@ -1,7 +1,17 @@
 
 import '../styles/sign-box.scss'
 
-export function SignBox(){
+type Props = {
+    
+    book: {
+        type: string;
+        title: string;
+        link: string;
+        description: string;
+    }
+}
+
+export function SignBox({ book }: Props){
     return (
         <div className="sign-box">
             <i>
@@ -15,11 +25,9 @@ export function SignBox(){
                 </svg>
             </i>
             
-            <h3>Tipo</h3>
-            <h1>Titulo</h1>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-                Amet.
-                </p>
+            <h3>{book.type}</h3>
+            <h1>{book.title}</h1>
+            <p>{book.description}</p>
             
         </div>
     )

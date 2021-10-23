@@ -16,6 +16,12 @@ export function Modal({handleModal, handleNewItem}: Props){
 
     function handlePushNewItem(event: FormEvent){
         event.preventDefault()
+
+        if(type.trim() === '' || title.trim() === '' || description.trim() === '') {
+            return;
+        }
+
+        handleNewItem({type, title, description, link})
     }
 
     return (

@@ -9,12 +9,14 @@ type FirebaseRoom = {
 
 type RoomContextType = {
     roomInfo: RoomInfoType | undefined;
+    roomId: string;
 }
 
 type RoomInfoType = {
     title: string;
     chat: Object;
     authorId: string;
+    
 }
 
 type Props = {
@@ -32,7 +34,7 @@ export function RoomContextProvider({children, ...props}: Props){
     useEffect(() => {
         const roomRef = database.ref(`rooms/${roomId}`)
         
-        roomRef.once('value', room => {
+        roomRef.on('value', room => {
             const databaseRoom = room.val()
 
             const firebaseRoom: FirebaseRoom = databaseRoom ?? {}
@@ -50,7 +52,7 @@ export function RoomContextProvider({children, ...props}: Props){
     },[roomId])
 
     return (
-        <RoomContext.Provider value={{roomInfo}}>
+        <RoomContext.Provider value={{roomInfo, roomId}}>
             {children}
         </RoomContext.Provider>
     )
